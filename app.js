@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
+const Listing=require("./models/listing.js");
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderLust";
@@ -17,6 +18,22 @@ async function main() {
 // api set
 app.get("/" , (req,res)=>{
     res.send("Api is working");
+});
+
+// listing models routing
+
+app.get("/testListing", async(req,res) => {
+    let sampleListing =new Listing({
+    tittle: "My New Villa",
+    description: "By the Beach",
+    price: 1200,  
+    location:"Calangute,Goa",
+
+});
+
+await sampleListing.save();
+console.log("Sample was saved");
+res.send("Succesfully testing");
 });
 
 // server connection
