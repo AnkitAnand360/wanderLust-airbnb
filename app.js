@@ -70,6 +70,13 @@ app.get("/listings", async(req,res) =>{
     res.redirect(`/listings/${listing._id}`);
    });
 
+   // Delete route
+   app.delete("/listings/:id", async(req,res) =>{
+    let { id } =req.params;
+    let deletedListing = await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+   });
+
 // listing models routing
 
 // app.get("/testListing", async(req,res) => {
