@@ -3,6 +3,9 @@ const app=express();
 const mongoose=require("mongoose");
 const Listing=require("./models/listing.js");
 const path=require("path");
+const methodOverride = require("method-override");
+
+
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderLust";
@@ -19,6 +22,7 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true}));
+app.use(methodOverride("_method"));
 
 // api set
 app.get("/" , (req,res)=>{
@@ -31,13 +35,12 @@ app.get("/listings", async(req,res) =>{
     res.render("listings/index.ejs", {allListings});
 });
 
-  // New route
+// New route
   app.get("/listings/new", (req,res) =>{
     res.render("listings/new.ejs");
   });
 
 // Show route
-
   app.get("/listings/:id" , async (req,res) =>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
@@ -52,6 +55,20 @@ app.get("/listings", async(req,res) =>{
     res.redirect("/listings");
    });
 
+
+   // Edit route
+    app.get("/listings/:id/edit", async(req,res) =>{
+    let {id} = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", {listing});
+   });
+
+   // Update route
+    app.put("/listings/:id", async (req,res) =>{
+    let {id} = req.params;
+    const listing = await Listing.findByIdAndUpdate(id, req.body.listing, {new:true});
+    res.redirect(`/listings/${listing._id}`);
+   });
 
 // listing models routing
 
