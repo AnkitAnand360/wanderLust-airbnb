@@ -68,11 +68,31 @@ app.get("/listings", async(req,res) =>{
    });
 
    // Update route
-    app.put("/listings/:id", async (req,res) =>{
-    let {id} = req.params;
-    const listing = await Listing.findByIdAndUpdate(id, req.body.listing, {new:true});
+//     app.put("/listings/:id", async (req,res) =>{
+//     let {id} = req.params;
+//     const listing = await Listing.findByIdAndUpdate(id, req.body.listing, {new:true});
+//     res.redirect(`/listings/${listing._id}`);
+//    });
+
+app.put("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+
+    let listingData = req.body.listing;
+
+    listingData.image = {
+        filename: "listingimage",
+        url: listingData.image,
+    };
+
+    const listing = await Listing.findByIdAndUpdate(
+        id,
+        listingData,
+        { returnDocument: "after" }
+    );
+
     res.redirect(`/listings/${listing._id}`);
-   });
+});
+
 
    // Delete route
    app.delete("/listings/:id", async(req,res) =>{
