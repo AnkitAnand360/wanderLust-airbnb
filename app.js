@@ -7,6 +7,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { listingSchema }=require("./schema.js");
+
 
 
 
@@ -34,6 +36,22 @@ app.get("/" , (req,res)=>{
     res.send("Api is working");
 });
 
+//  Validate schema middleware
+
+const validateListing = (req, res ,next) => {
+    // console.log("listingSchema =", listingSchema);
+      let {error}= listingSchema.validate(req.body);
+        if(error){
+            let errMsg = error.details.map((el) => el.message).join(",");
+            throw new ExpressError(400,errMsg);
+        }else{
+            next();
+        }
+}
+
+
+
+
 // index route
 app.get("/listings", wrapAsync(async(req,res) =>{
     const allListings = await Listing.find({});
@@ -54,10 +72,22 @@ app.get("/listings", wrapAsync(async(req,res) =>{
 );
 
   // Create route
-   app.post("/listings", wrapAsync(async (req,res,next) =>{
-    if(!req.body.listing) throw new ExpressError(400, "Invalid Listing Data");
+   app.post("/listings", validateListing, wrapAsync(async (req,res,next) =>{
+    // if(!req.body.listing) throw new ExpressError(400, "Invalid Listing Data");
     // let {tittle, description, price, location} = req.body;
+      
          const newListing = new Listing(req.body.listing);
+
+        //  if(!newListing.title){
+        //     throw new ExpressError(400, "Title is missing!");
+        //  }
+        //  if(!newListing.description){
+        //     throw new ExpressError(400, "Description is missing!");
+        //  }
+        //  if(!newListing.location){
+        //     throw new ExpressError(400, "Location is missing!");
+        //  }
+
     await newListing.save();
     res.redirect("/listings");
    })
@@ -78,7 +108,11 @@ app.get("/listings", wrapAsync(async(req,res) =>{
 //     res.redirect(`/listings/${listing._id}`);
 //    });
 
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
+
+    //  console.log("PUT BODY:", req.body);
+    // console.log("PUT LISTING:", req.body.listing);
+
     let { id } = req.params;
 
     let listingData = req.body.listing;
@@ -128,8 +162,11 @@ app.all("/*splat", (req, res, next ) =>{
 
 // Error handling
 app.use((err,req,res,next) => {
+    // console.log("ERROR =", err);
     let { statusCode = 500 , message = "Something went wrong!  "} = err;
-    res.status(statusCode).send(message);
+    // res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs",  {message});
+
 });
 
 // server connection
