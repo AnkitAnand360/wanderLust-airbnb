@@ -10,19 +10,11 @@ const listingSchema = new Schema({
     },
 
     description: String,
-     image: {
-        filename: {
-            type: String,
-            default: "listingimage",
-        },
-
-        url: {
-            type: String,
-            default:
-                "https://news.airbnb.com/wp-content/uploads/sites/4/2022/11/10_Elegant-Secluded-Cabin.jpg?resize=2048,1365",
-        },
+    image: {
+        url: String,
+        filename: String,
     },
-    price: Number, 
+    price: Number,
     location: String,
     country: String,
     reviews: [
@@ -35,6 +27,17 @@ const listingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+        },
+        coordinates: {
+            type: [Number],
+           required: true,
+        }
+    }
 });
 
 // mongoose middleware to delete associated reviews when a listing is deleted from database
