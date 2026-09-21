@@ -64,7 +64,7 @@ module.exports.renderNewForm = (req,res) =>{
         return res.redirect("/listings");
     }
     let originalImageUrl = listing.image.url;
-    originalImageUrl.replace("/uploads", "/upload/w_300,h_200,c_fill");
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
 
     res.render("listings/edit.ejs", {listing , originalImageUrl});
    };
