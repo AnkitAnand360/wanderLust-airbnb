@@ -67,9 +67,9 @@ const sessionOptions = {
 };
 
 //  api set
-// app.get("/" , (req,res)=>{
-//     res.send("Api is working");
-// });
+app.get("/" , (req,res)=>{
+    res.redirect("/listings");
+});
 
 
 
