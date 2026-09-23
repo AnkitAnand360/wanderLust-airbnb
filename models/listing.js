@@ -1,5 +1,5 @@
-const mongoose =require("mongoose");
-const Schema=mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const Review = require("./review.js");
 
 
@@ -17,6 +17,10 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+    category: {
+        type: String,
+        enum: ['Trending', 'Rooms', 'Iconic Cities', 'Mountain', 'Castles', 'Amazing pools', 'Camping', 'Farms', 'Arctic', 'Domes', 'Boats']
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
@@ -35,17 +39,17 @@ const listingSchema = new Schema({
         },
         coordinates: {
             type: [Number],
-           required: true,
+            required: true,
         }
     }
 });
 
 // mongoose middleware to delete associated reviews when a listing is deleted from database
- listingSchema.post("findOneAndDelete" , async (listing) => {
+listingSchema.post("findOneAndDelete", async (listing) => {
     if (listing) {
         await Review.deleteMany({ _id: { $in: listing.reviews } });
     }
- });
+});
 
 
 const Listing = mongoose.model("Listing", listingSchema);

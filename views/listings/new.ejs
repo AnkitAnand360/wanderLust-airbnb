@@ -40,11 +40,32 @@
     </div>
     <br><br>
 
-    <div class="mb-3 col-md-8">
+    <div class="mb-3 col-md-4">
         <label for="country" class="form-label">Country</label>
         <input name="listing[country]" placeholder="India" type="text" class="form-control" required />
         <div class="invalid-feedback">
             Please provide a country.
+        </div>
+    </div>
+    
+    <div class="mb-3 col-md-4">
+        <label for="category" class="form-label">Category</label>
+        <select name="listing[category]" class="form-select" required>
+            <option value="" disabled selected>Select category</option>
+            <option value="Trending">Trending</option>
+            <option value="Rooms">Rooms</option>
+            <option value="Iconic Cities">Iconic Cities</option>
+            <option value="Mountain">Mountain</option>
+            <option value="Castles">Castles</option>
+            <option value="Amazing pools">Amazing pool</option>
+            <option value="Camping">Camping</option>
+            <option value="Farms">Farms</option>
+            <option value="Arctic">Arctic</option>
+            <option value="Domes">Domes</option>
+            <option value="Boats">Boats</option>
+        </select>
+        <div class="invalid-feedback">
+            Please provide a category.
         </div>
     </div>
     </div>

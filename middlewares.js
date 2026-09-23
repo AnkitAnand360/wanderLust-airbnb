@@ -14,7 +14,7 @@ module.exports.isLoggedIn = (req,res,next) => {
 
 module.exports.saveRedirectUrl = (req,res,next) => {
     if(req.session.redirectTo){
-        res.locals.redirectUrl = req.session.redirectUrl;
+        res.locals.redirectUrl = req.session.redirectTo;
     } else {
         res.locals.redirectUrl = "/listings";
     }

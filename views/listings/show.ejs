@@ -106,7 +106,7 @@ const listing = <%- JSON.stringify(listing) %>;
                                                 <p class="card-text">
                                                     <%= review.comment %>
                                                 </p>
-                                                <form clqss="mb-3" method="POST"
+                                                <form class="mb-3" method="POST"
                                                     action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                                                     <button class="btn btn-sm btn-dark">Delete</button>
                                                 </form>
