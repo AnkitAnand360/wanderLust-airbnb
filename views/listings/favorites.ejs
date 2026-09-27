@@ -1,0 +1,55 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+      <h2 class="fw-bold mb-1">
+        <i class="fa-solid fa-heart text-danger me-2"></i>My Favorites
+      </h2>
+      <p class="text-muted mb-0">Your saved wishlist of destinations and dream stays</p>
+    </div>
+    <a href="/listings" class="btn btn-outline-dark rounded-pill px-3">
+      <i class="fa-solid fa-arrow-left me-1"></i> Explore More
+    </a>
+  </div>
+
+  <div id="favorites-container" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-1 <%= (allListings && allListings.length > 0) ? '' : 'd-none' %>">
+    <% if(allListings && allListings.length > 0) { %>
+      <% for(let listing of allListings) { %>
+        <div class="col listing-col-item" id="fav-item-<%= listing._id %>">
+          <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="card listing-card h-100">
+              <div class="card-img-container">
+                <img src="<%= listing.image && listing.image.url ? listing.image.url : '' %>" class="card-img-top" alt="listing_image" style="height: 20rem; object-fit: cover;">
+                <button type="button" class="btn-favorite" data-listing-id="<%= listing._id %>" aria-label="Remove from favorites" title="Remove from favorites">
+                  <i class="fa-solid fa-heart text-danger"></i>
+                </button>
+                <div class="card-img-overlay"></div>
+              </div>
+              <div class="card-body pt-2">
+                <p class="card-text mb-0">
+                  <b><%= listing.title %></b><br>
+                  <span class="text-muted"><%= listing.location %>, <%= listing.country %></span><br>
+                  &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / night
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+
+  <div id="empty-favorites" class="text-center py-5 my-5 <%= (allListings && allListings.length > 0) ? 'd-none' : '' %>">
+    <div class="empty-fav-icon-wrapper mb-3">
+      <i class="fa-regular fa-heart text-danger display-1 opacity-75"></i>
+    </div>
+    <h4 class="fw-bold mb-2">No saved favorites yet</h4>
+    <p class="text-muted mb-4" style="max-width: 450px; margin: 0 auto;">
+      Click the heart icon on any listing card while browsing to save your favorite getaways and access them here anytime.
+    </p>
+    <a href="/listings" class="btn btn-danger rounded-pill px-4 py-2">
+      <i class="fa-regular fa-compass me-1"></i> Start Exploring
+    </a>
+  </div>
+</div>

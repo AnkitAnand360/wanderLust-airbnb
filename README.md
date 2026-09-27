@@ -57,6 +57,14 @@
 - **Starability Rating**: 5-star rating system with customizable review comments.
 - **Review Author Attribution**: Each review is linked to its creator, allowing only the original author to delete it.
 
+### ❤️ Wishlist & Favorites System
+- **Top-Right Floating Heart**: Instantly save or unsave any listing by clicking the heart button positioned on the top-right corner of listing images.
+- **Micro-Animations**: Interactive heart-pulse animation with immediate visual feedback (transitions seamlessly between outline and solid red heart).
+- **Navbar Live Counter**: Dedicated "Favorites" link in the navbar with a dynamic counter badge that updates in real time without page reloads.
+- **Curated Wishlist Page (`/favorites`)**: A personalized dashboard displaying all favorited listings in a clean grid, with smooth animated item removal and an engaging empty-state view.
+- **Asynchronous AJAX Updates**: Seamless user experience powered by asynchronous fetch requests, ensuring browsing uninterrupted by full-page reloads.
+- **Guest Protection**: Gracefully redirects unauthenticated users to `/login` when attempting to save favorites.
+
 ### 🔐 Authentication & Authorization
 - **Passport.js Authentication**: Secure registration and login powered by `passport-local` and `passport-local-mongoose`.
 - **Session Persistence**: Sessions managed with `express-session` and stored in **MongoDB Atlas** using `connect-mongo`.
@@ -96,19 +104,19 @@ wanderLust(airbnb)/
 ├── models/               # Mongoose data schemas
 │   ├── listing.js        # Listing schema with GeoJSON Point & post middleware
 │   ├── review.js         # Review schema with author reference
-│   └── user.js           # User schema integrated with Passport-Local-Mongoose
+│   └── user.js           # User schema with favorites references & Passport-Local-Mongoose
 ├── routes/               # Express REST routers
 │   ├── listing.js        # /listings routes
 │   ├── review.js         # /listings/:id/reviews routes
-│   └── user.js           # Authentication routes
+│   └── user.js           # Authentication & /favorites routes
 ├── views/                # EJS templates & UI components
 │   ├── layouts/          # Boilerplate layout with nav & footer
 │   ├── includes/         # Reusable partials (navbar, footer, flash alerts)
-│   ├── listings/         # index, show, new, edit views
+│   ├── listings/         # index, show, new, edit, and favorites views
 │   └── users/            # login and signup views
 ├── public/               # Static client assets
 │   ├── css/              # Custom styling & responsive layouts
-│   └── js/               # Mapbox script (map.js) & form validation (script.js)
+│   └── js/               # map.js, script.js & favorite.js (interactive AJAX toggle)
 ├── utils/                # Helper utilities
 │   ├── ExpressError.js   # Custom HTTP error class
 │   └── wrapAsync.js      # Async error boundary wrapper
@@ -213,6 +221,8 @@ node init/index.js
 | **GET** | `/listings/:id/edit`| Render edit form for listing | Owner Only |
 | **PUT** | `/listings/:id` | Update listing details and/or image | Owner Only |
 | **DELETE**| `/listings/:id` | Delete listing and cascade its reviews | Owner Only |
+| **POST** | `/listings/:id/favorite` | Toggle listing favorite/wishlist status | Authenticated |
+| **GET** | `/favorites` | View user's saved favorite listings | Authenticated |
 | **POST** | `/listings/:id/reviews` | Post a review with star rating | Authenticated |
 | **DELETE**| `/listings/:id/reviews/:reviewId` | Delete a review | Review Author Only |
 | **GET** | `/signup` | Render signup form | Public |

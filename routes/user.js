@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middlewares.js");
+const { saveRedirectUrl, isLoggedIn } = require("../middlewares.js");
 const userController = require("../controllers/users.js");
 
 
@@ -18,6 +18,8 @@ router.post("/login", saveRedirectUrl, passport.authenticate("local", {
     failureFlash: true
 }), userController.login);
 
-router.get("/logout",userController.logout);
+router.get("/logout", userController.logout);
+
+router.get("/favorites", isLoggedIn, wrapAsync(userController.renderFavorites));
 
 module.exports = router;

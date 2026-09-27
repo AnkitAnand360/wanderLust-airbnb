@@ -115,11 +115,18 @@
 
 
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-    <% for(let listing of allListings) { %>
+    <% for(let listing of allListings) { 
+        let isFav = currentUser && currentUser.favorites && currentUser.favorites.some(f => f.toString() === listing._id.toString());
+    %>
       <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="card col listing-card">
-          <img src=" <%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height : 20rem">
-          <div class="card-img-overlay">ankit</div>
+          <div class="card-img-container">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height : 20rem">
+            <button type="button" class="btn-favorite" data-listing-id="<%= listing._id %>" aria-label="Favorite" title="<%= isFav ? 'Remove from favorites' : 'Add to favorites' %>">
+              <i class="<%= isFav ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart' %>"></i>
+            </button>
+            <div class="card-img-overlay"></div>
+          </div>
           <div class="card-body">
             <p class="card-text">
               <b>

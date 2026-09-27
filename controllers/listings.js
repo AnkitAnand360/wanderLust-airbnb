@@ -1,4 +1,5 @@
 const Listing = require('../models/listing');
+const User = require('../models/user');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
@@ -98,3 +99,40 @@ module.exports.destroyListing = async (req, res) => {
     req.flash("success", "Listing deleted successfully!");
     res.redirect("/listings");
 };
+
+module.exports.toggleFavorite = async (req, res) => {
+    let { id } = req.params;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        if (req.xhr || req.headers.accept?.includes("application/json")) {
+            return res.status(401).json({ success: false, redirectUrl: "/login", message: "Please log in first!" });
+        }
+        req.flash("error", "You must be logged in to favorite listings!");
+        return res.redirect("/login");
+    }
+
+    const index = user.favorites.findIndex((favId) => favId.toString() === id.toString());
+    let isFavorite = false;
+
+    if (index > -1) {
+        user.favorites.splice(index, 1);
+        isFavorite = false;
+    } else {
+        user.favorites.push(id);
+        isFavorite = true;
+    }
+
+    await user.save();
+
+    if (req.xhr || req.headers.accept?.includes("application/json")) {
+        return res.json({
+            success: true,
+            isFavorite,
+            count: user.favorites.length,
+            message: isFavorite ? "Added to favorites!" : "Removed from favorites!"
+        });
+    }
+
+    req.flash("success", isFavorite ? "Added to favorites!" : "Removed from favorites!");
+    res.redirect(req.get("Referrer") || "/listings");
+};

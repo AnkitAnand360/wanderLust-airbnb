@@ -6,7 +6,10 @@ const { listingSchema ,reviewSchema  }=require("./schema.js");
 module.exports.isLoggedIn = (req,res,next) => {
     if(!req.isAuthenticated()){
         req.session.redirectTo = req.originalUrl;
-        req.flash("error", "You must be logged in to create a new listing!");
+        if (req.xhr || req.headers.accept?.includes("application/json") || req.headers["x-requested-with"] === "XMLHttpRequest") {
+            return res.status(401).json({ success: false, redirectUrl: "/login", message: "You must be logged in!" });
+        }
+        req.flash("error", "You must be logged in!");
         return res.redirect("/login");
     }
     next();

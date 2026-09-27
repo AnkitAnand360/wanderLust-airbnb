@@ -44,3 +44,10 @@ module.exports.logout = (req, res, next) => {
     });
 };
 
+module.exports.renderFavorites = async (req, res) => {
+    const user = await User.findById(req.user._id).populate("favorites");
+    const allListings = user.favorites || [];
+    res.render("listings/favorites.ejs", { allListings });
+};
+
+

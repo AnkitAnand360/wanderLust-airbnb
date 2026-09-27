@@ -58,7 +58,11 @@
      </div>
 
 
-            <div class="navbar-nav ms-auto">
+            <div class="navbar-nav ms-auto align-items-center">
+                 <a class="nav-link me-2" href="/favorites" id="nav-favorites-link" title="My Favorites">
+                    <i class="fa-solid fa-heart text-danger"></i> Favorites
+                    <span class="badge bg-danger rounded-pill ms-1 <%= (currentUser && currentUser.favorites && currentUser.favorites.length > 0) ? '' : 'd-none' %>" id="nav-fav-badge"><%= (currentUser && currentUser.favorites) ? currentUser.favorites.length : 0 %></span>
+                 </a>
                  <a class="nav-link" href="/listings/new">Airbnb your home</a>
                 <% if(!currentUser) { %>
                 <a class="nav-link"  href="/signup"><b>Sign Up</b></a>
