@@ -15,6 +15,7 @@
 ## 📖 Table of Contents
 
 - [Overview](#-overview)
+- [Video Demo & Walkthrough](#-video-demo--walkthrough)
 - [Key Features](#-key-features)
 - [Technology Stack](#-technology-stack)
 - [Project Architecture](#-project-architecture)
@@ -34,6 +35,20 @@
 ## 🌟 Overview
 
 **Wanderlust** allows users to discover, list, and review unique accommodations and travel destinations worldwide. The platform features forward geocoding with interactive maps, cloud image hosting with automatic optimizations, secure user authentication with session persistence, category-based browsing, and instant tax calculation toggles.
+
+---
+
+## 🎥 Video Demo & Walkthrough
+
+![Wanderlust Video Demo Walkthrough](assets/wanderlust_demo.webp)
+
+> **Full Walkthrough Highlights Recorded:**
+> 1. **Browse & Pricing**: Smooth responsive card browsing & live +18% GST tax calculation toggle.
+> 2. **Category Filters**: Instant category navigation across Trending, Mountain, Camping, and all listings.
+> 3. **User Authentication**: Secure login flow with session persistence and flash feedback notifications.
+> 4. **Wishlist & Favorites**: Real-time heart animation toggling, dynamic navbar counter badge updates, and `/favorites` wishlist dashboard.
+> 5. **Listing Details & Interactive Maps**: Full property show page with forward geocoding and Mapbox GL pin markers.
+> 6. **Reviews & Ratings**: Interactive 5-star rating submission and live review publishing.
 
 ---
 
